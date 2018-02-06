@@ -85,7 +85,7 @@ class ApplicationController < ActionController::API
         end
         @checkin.updated_at = Time.now
         @checkin.save
-      when /cancel/i
+      when /remove/i
         @checkin = @member.checkins.of_today.first
         if @checkin.present?
           @checkin.destroy
@@ -96,7 +96,7 @@ class ApplicationController < ActionController::API
       when /hours/i
         @message = "#{@member.name}, you are welcome to play from 7PM to 10PM"
       when /commands/i
-        @message = "#{@member.name}, You can say things like: 'checkin at brentwood', 'cancel brentwood', 'hours of bohemia' etc."
+        @message = "#{@member.name}, You can say things like: 'checkin brentwood', 'remove brentwood', 'hours of bohemia' etc."
       else
         @message = "#{@member.name}, I do not understand your Command."
     end
