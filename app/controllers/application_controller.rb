@@ -4,4 +4,114 @@ class ApplicationController < ActionController::API
   def ping
     render plain: "pong"
   end
+
+  def incoming_call
+    response = Twilio::TwiML::VoiceResponse.new do |r|
+      r.say('hi', voice: 'alice')
+      r.say('Please dont call this number.', voice: 'alice')
+      r.say('If you need assistance just send a text message', voice: 'alice')
+      r.say('You can also just text the word HELP and we will send you a list of commands you can text back to do a variety of things', voice: 'alice')
+      r.say('Have a nice day.', voice: 'alice')
+      r.say('And remember dont call this number again. Use Text instead.', voice: 'alice')
+    end
+
+    render :xml => response
+  end
+
+  def incoming_text
+    puts params
+    puts twilio_params
+    @body = twilio_params[:Body]
+    @from = twilio_params[:From]
+    @from = @from.sub "+1", ""
+    account_sid = ENV['account_sid']
+    auth_token = ENV['auth_token']
+    @client = Twilio::REST::Client.new account_sid, auth_token
+
+    case @body
+      when /brentwood/i
+        @club = Club.find_by :name => 'brentwood'
+      when /bohemia/i
+        @club = Club.find_by :name => 'bohemia'
+      else
+        @client.api.account.messages.create(
+          from: '+16315134121',
+          to: @from,
+          body: 'Your command must include a club name like \'brentwood\' or \'bohemia\'.'
+        )
+        render :status => :ok
+        return
+    end
+
+    if @club.blank?
+      @client.api.account.messages.create(
+        from: '+16315134121',
+        to: @from,
+        body: 'Club not found'
+      )
+      render :status => :ok
+      return
+    end
+
+    @member = @club.members.find_by :phone_number => @from
+
+    if @member.blank?
+      @client.api.account.messages.create(
+        from: '+16315134121',
+        to: @from,
+        body: "Sorry cant do anything as your number is not associated to any member"
+      )
+      render :status => :ok
+      return
+    end
+
+    if @member.full_time == false
+      @client.api.account.messages.create(
+        from: '+16315134121',
+        to: @from,
+        body: "#{member.name}, SMS feature is for full time members only!"
+      )
+      render :status => :ok
+      return
+    end
+
+    case @body
+      when /checkin/i
+        @checkin = @member.checkins.of_today.first || @member.checkins.new
+        if @checkin.persisted?
+          @message = "#{@member.name}, You are already checked in"
+        else
+          @message = "#{@member.name}, You have been checked in successfully"
+        end
+        @checkin.updated_at = Time.now
+        @checkin.save
+      when /cancel/i
+        @checkin = @member.checkins.of_today.first
+        if @checkin.present?
+          @checkin.destroy
+          @message = "#{@member.name}, Your checkin has been removed!"
+        else
+          @message = "#{@member.name}, Your were not checked in. Nothing to do."
+        end
+      when /hours/i
+        @message = "#{@member.name}, you are welcome to play from 7PM to 10PM"
+      when /commands/i
+        @message = "#{@member.name}, You can say things like: 'checkin at brentwood', 'cancel brentwood', 'hours of bohemia' etc."
+      else
+        @message = "#{@member.name}, I do not understand your Command."
+    end
+
+    @client.api.account.messages.create(
+      from: '+16315134121',
+      to: @from,
+      body: @message
+    )
+    render :status => :ok
+    return
+
+  end
+
+  def twilio_params
+    params.permit(:From, :Body)
+  end
 end

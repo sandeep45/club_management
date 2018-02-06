@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   end
 
   get '/ping', to: 'application#ping'
+  match '/incoming_call', to: 'application#incoming_call', :via => [:get, :post]
+  match '/incoming_text', to: 'application#incoming_text', :via => [:get, :post]
+  match '/incoming_sms', to: 'application#incoming_text', :via => [:get, :post]
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

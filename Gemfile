@@ -27,6 +27,10 @@ gem 'puma', '~> 3.7'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
+gem 'twilio-ruby'
+
+gem 'dotenv-rails'
+
 gem 'devise_token_auth'
 
 gem 'awesome_print'
