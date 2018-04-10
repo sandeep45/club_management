@@ -19,11 +19,12 @@ class ApplicationController < ActionController::API
   end
 
   def incoming_text
-    puts params
-    puts twilio_params
+    puts "in incoming text with parms: #{params}"
+    puts "in incoming text with twilio_params: #{twilio_params}"
     @body = twilio_params[:Body]
     @from = twilio_params[:From]
     @from = @from.sub "+1", ""
+    @from = @from.sub " 1", ""
     account_sid = ENV['account_sid']
     auth_token = ENV['auth_token']
     @client = Twilio::REST::Client.new account_sid, auth_token
@@ -39,6 +40,7 @@ class ApplicationController < ActionController::API
           to: @from,
           body: 'Your command must include a club name like \'brentwood\' or \'bohemia\'.'
         )
+        puts "club not specified in text"
         render :status => :ok
         return
     end
@@ -49,6 +51,7 @@ class ApplicationController < ActionController::API
         to: @from,
         body: 'Club not found'
       )
+      puts "unable to find your club"
       render :status => :ok
       return
     end
@@ -61,6 +64,7 @@ class ApplicationController < ActionController::API
         to: @from,
         body: "Sorry cant do anything as your number is not associated to any member"
       )
+      puts "unable to find member"
       render :status => :ok
       return
     end
@@ -71,6 +75,7 @@ class ApplicationController < ActionController::API
         to: @from,
         body: "#{member.name}, SMS feature is for full time members only!"
       )
+      puts "found member but they are not full time"
       render :status => :ok
       return
     end
@@ -106,6 +111,7 @@ class ApplicationController < ActionController::API
       to: @from,
       body: @message
     )
+    puts "checked in successfully"
     render :status => :ok
     return
 
