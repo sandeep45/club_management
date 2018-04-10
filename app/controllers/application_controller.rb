@@ -25,6 +25,9 @@ class ApplicationController < ActionController::API
     @from = twilio_params[:From]
     @from = @from.sub "+1", ""
     @from = @from.sub " 1", ""
+    puts "from number after stripping is #{@from}"
+    puts "body is #{@body}"
+
     account_sid = ENV['account_sid']
     auth_token = ENV['auth_token']
     @client = Twilio::REST::Client.new account_sid, auth_token
