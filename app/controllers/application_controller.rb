@@ -91,7 +91,7 @@ class ApplicationController < ActionController::API
         else
           @message = "#{@member.name}, You have been checked in successfully"
         end
-        @checkin.updated_at = Time.now
+        @checkin.updated_at = Time.current
         @checkin.save
       when /remove/i
         @checkin = @member.checkins.of_today.first

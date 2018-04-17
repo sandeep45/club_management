@@ -22,7 +22,8 @@ class MembersController < AuthenticatedController
 
   def checked_in_today
     @members = @owner.members.joins(:checkins).
-      where("checkins.created_at > ? and checkins.created_at < ?", Time.now.beginning_of_day, Time.now.end_of_day)
+      where("checkins.created_at > ? and checkins.created_at < ?",
+            Time.current.beginning_of_day, Time.current.end_of_day)
 
     render json: @members.to_json(
       :include => {
