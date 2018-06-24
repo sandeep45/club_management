@@ -32,29 +32,15 @@ class ApplicationController < ActionController::API
     auth_token = ENV['auth_token']
     @client = Twilio::REST::Client.new account_sid, auth_token
 
-    case @body
-      when /brentwood/i
-        @club = Club.find_by :name => 'brentwood'
-      when /bohemia/i
-        @club = Club.find_by :name => 'bohemia'
-      else
-        @client.api.account.messages.create(
-          from: '+16315134121',
-          to: @from,
-          body: 'Your command must include a club name like \'brentwood\' or \'bohemia\'.'
-        )
-        puts "club not specified in text"
-        render :status => :ok
-        return
-    end
+    @club = get_club_from_message @body
 
     if @club.blank?
       @client.api.account.messages.create(
         from: '+16315134121',
         to: @from,
-        body: 'Club not found'
+        body: "Your command must include a club name like #{Club.all.pluck(:keyword).join(',')}."
       )
-      puts "unable to find your club"
+      puts "club not specified in text"
       render :status => :ok
       return
     end
@@ -76,7 +62,7 @@ class ApplicationController < ActionController::API
       @client.api.account.messages.create(
         from: '+16315134121',
         to: @from,
-        body: "#{member.name}, SMS feature is for full time members only!"
+        body: "#{@member.name}, SMS feature is for full time members only!"
       )
       puts "found member but they are not full time"
       render :status => :ok
@@ -122,5 +108,11 @@ class ApplicationController < ActionController::API
 
   def twilio_params
     params.permit(:From, :Body)
+  end
+
+  private
+  def get_club_from_message(body)
+    words = body.split(" ") # [check, in, brentwood]
+    Club.find_by("keyword in (?)", words)
   end
 end
