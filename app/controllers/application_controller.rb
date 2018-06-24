@@ -112,7 +112,7 @@ class ApplicationController < ActionController::API
 
   private
   def get_club_from_message(body)
-    words = body.split(" ") # [check, in, brentwood]
-    Club.find_by("keyword in (?)", words)
+    words = body.split(" ").map(&:downcase) # [check, in, brentwood]
+    Club.find_by("lower(keyword) in (?)", words)
   end
 end
