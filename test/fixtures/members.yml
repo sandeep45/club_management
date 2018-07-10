@@ -15,6 +15,7 @@
 # **`created_at`**      | `datetime`         | `not null`
 # **`updated_at`**      | `datetime`         | `not null`
 # **`qr_code_number`**  | `integer`          |
+# **`rating`**          | `integer`          | `default(0)`
 #
 # ### Indexes
 #
