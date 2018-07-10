@@ -19,36 +19,28 @@ class ApplicationController < ActionController::API
   end
 
   def incoming_text
-    puts params
-    puts twilio_params
+    puts "in incoming text with parms: #{params}"
+    puts "in incoming text with twilio_params: #{twilio_params}"
     @body = twilio_params[:Body]
     @from = twilio_params[:From]
     @from = @from.sub "+1", ""
+    @from = @from.sub " 1", ""
+    puts "from number after stripping is #{@from}"
+    puts "body is #{@body}"
+
     account_sid = ENV['account_sid']
     auth_token = ENV['auth_token']
     @client = Twilio::REST::Client.new account_sid, auth_token
 
-    case @body
-      when /brentwood/i
-        @club = Club.find_by :name => 'brentwood'
-      when /bohemia/i
-        @club = Club.find_by :name => 'bohemia'
-      else
-        @client.api.account.messages.create(
-          from: '+16315134121',
-          to: @from,
-          body: 'Your command must include a club name like \'brentwood\' or \'bohemia\'.'
-        )
-        render :status => :ok
-        return
-    end
+    @club = get_club_from_message @body
 
     if @club.blank?
       @client.api.account.messages.create(
         from: '+16315134121',
         to: @from,
-        body: 'Club not found'
+        body: "Your command must include a club name like #{Club.all.pluck(:keyword).join(',')}."
       )
+      puts "club not specified in text"
       render :status => :ok
       return
     end
@@ -61,6 +53,7 @@ class ApplicationController < ActionController::API
         to: @from,
         body: "Sorry cant do anything as your number is not associated to any member"
       )
+      puts "unable to find member"
       render :status => :ok
       return
     end
@@ -69,8 +62,9 @@ class ApplicationController < ActionController::API
       @client.api.account.messages.create(
         from: '+16315134121',
         to: @from,
-        body: "#{member.name}, SMS feature is for full time members only!"
+        body: "#{@member.name}, SMS feature is for full time members only!"
       )
+      puts "found member but they are not full time"
       render :status => :ok
       return
     end
@@ -83,7 +77,7 @@ class ApplicationController < ActionController::API
         else
           @message = "#{@member.name}, You have been checked in successfully"
         end
-        @checkin.updated_at = Time.now
+        @checkin.updated_at = Time.current
         @checkin.save
       when /remove/i
         @checkin = @member.checkins.of_today.first
@@ -106,6 +100,7 @@ class ApplicationController < ActionController::API
       to: @from,
       body: @message
     )
+    puts "checked in successfully"
     render :status => :ok
     return
 
@@ -113,5 +108,11 @@ class ApplicationController < ActionController::API
 
   def twilio_params
     params.permit(:From, :Body)
+  end
+
+  private
+  def get_club_from_message(body)
+    words = body.split(" ").map(&:downcase) # [check, in, brentwood]
+    Club.find_by("lower(keyword) in (?)", words)
   end
 end

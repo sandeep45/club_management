@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20180710155906) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "owner_id"
+    t.string "keyword"
     t.index ["owner_id"], name: "index_clubs_on_owner_id"
   end
 

@@ -52,6 +52,6 @@ class ClubsController < AuthenticatedController
 
     # Only allow a trusted parameter "white list" through.
     def club_params
-      params.require(:club).permit(:name, :owner_id)
+      params.require(:club).permit(:name, :owner_id, :keyword)
     end
 end

@@ -23,7 +23,7 @@ class CheckinsController < AuthenticatedController
   def create
     @checkin = @member.checkins.of_today.first || @member.checkins.new
     status = @checkin.persisted? ? 208 : 201
-    @checkin.updated_at = Time.now
+    @checkin.updated_at = Time.current
 
     if @checkin.save
       render json: @checkin.to_json(

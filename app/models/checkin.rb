@@ -26,6 +26,6 @@ class Checkin < ApplicationRecord
   belongs_to :member
 
   scope :of_today, -> { where("checkins.created_at >= ? and checkins.created_at <= ?",
-                              Time.now.beginning_of_day, Time.now.end_of_day) }
+                              Time.current.beginning_of_day, Time.current.end_of_day) }
 
 end
