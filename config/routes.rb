@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :checkins
       collection do
         get :checked_in_today
+        get :checked_in_on_date
         post :lookup
       end
     end

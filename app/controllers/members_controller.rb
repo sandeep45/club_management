@@ -38,6 +38,26 @@ class MembersController < AuthenticatedController
     )
   end
 
+  def checked_in_on_date
+    @date = Time.zone.strptime params[:date], '%m-%d-%Y'
+
+    @members = @owner.members.joins(:checkins).
+      where("checkins.created_at > ? and checkins.created_at < ?",
+            @date.beginning_of_day, @date.end_of_day)
+
+    render json: @members.to_json(
+      :include => {
+        :checkins => {
+          :include => {
+            :member => {
+              :only => :id
+            }
+          }
+        }
+      }
+    )
+  end
+
   # GET /members/1
   def show
     render json: @member
