@@ -15,7 +15,8 @@
 # **`created_at`**      | `datetime`         | `not null`
 # **`updated_at`**      | `datetime`         | `not null`
 # **`qr_code_number`**  | `integer`          |
-# **`rating`**          | `integer`          | `default(0)`
+# **`league_rating`**   | `integer`          | `default(0)`
+# **`usatt_number`**    | `integer`          |
 #
 # ### Indexes
 #

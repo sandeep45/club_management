@@ -132,7 +132,7 @@ class MembersController < AuthenticatedController
 
     # Only allow a trusted parameter "white list" through.
     def member_params
-      params.require(:member).permit(:name, :email, :club_id, :phone_number, :qr_code_number, :full_time, :rating)
+      params.require(:member).permit(:name, :email, :club_id, :phone_number, :qr_code_number, :full_time, :league_rating, :usatt_number)
     end
 
     def lookup_params
