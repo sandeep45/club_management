@@ -9,6 +9,7 @@ Rails.application.routes.draw do
         get :checked_in_today
         get :checked_in_on_date
         post :lookup
+        post :mark_all_part_time
       end
     end
     resources :checkins, :except => [:create]

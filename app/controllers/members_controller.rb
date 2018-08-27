@@ -84,6 +84,10 @@ class MembersController < AuthenticatedController
     )
   end
 
+  def mark_all_part_time
+    @club.members.update_all :full_time => false
+  end
+
   # POST /members
   def create
     @member = @club.members.new(member_params)
