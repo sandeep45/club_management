@@ -1,6 +1,7 @@
 # client = SimplyCompeteWrapper.new 'gallian83@hotmail.com', 'bttc', 1017
 # client.setup_session
-# client.download_csv
+# x = client.download_csv
+require 'csv'
 
 class SimplyCompeteWrapper
 
@@ -41,5 +42,13 @@ class SimplyCompeteWrapper
     }
     response = RestClient::Request.execute(method: 'POST', url: url, headers: headers)
     puts response
+    csv = ::CSV.parse(response.body, :headers => true).reject { |row| row.all?(&:nil?) }.map(&:to_hash)
+    csv = csv.each_with_object({}) do |h, obj|
+      key = h["FirstName"]+" "+h["LastName"]
+      value = h["LeagueRating"]
+      obj[key] = value
+    end
+    csv
   end
+
 end

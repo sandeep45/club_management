@@ -3,6 +3,16 @@ class MembersController < AuthenticatedController
   before_action :set_club
   before_action :set_member, only: [:show, :update, :destroy]
 
+  def update_ratings
+    client = SimplyCompeteWrapper.new 'gallian83@hotmail.com', 'bttc', 1017
+    client.setup_session
+    hash = client.download_csv
+    hash.each_pair do |k,v|
+      Member.where("lower(name) = lower(?)", k).update_all("league_rating=#{v}")
+    end
+    render json: @club.members
+  end
+
   # GET /members
   def index
     @members = @club.members.all
