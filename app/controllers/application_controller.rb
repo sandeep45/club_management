@@ -58,16 +58,16 @@ class ApplicationController < ActionController::API
       return
     end
 
-    if @member.full_time == false
-      @client.api.account.messages.create(
-        from: '+16315134121',
-        to: @from,
-        body: "#{@member.name}, SMS feature is for full time members only!"
-      )
-      puts "found member but they are not full time"
-      render :status => :ok
-      return
-    end
+    # if @member.full_time == false
+    #   @client.api.account.messages.create(
+    #     from: '+16315134121',
+    #     to: @from,
+    #     body: "#{@member.name}, SMS feature is for full time members only!"
+    #   )
+    #   puts "found member but they are not full time"
+    #   render :status => :ok
+    #   return
+    # end
 
     case @body
       when /checkin/i
@@ -75,7 +75,10 @@ class ApplicationController < ActionController::API
         if @checkin.persisted?
           @message = "#{@member.name}, You are already checked in"
         else
-          @message = "#{@member.name}, You have been checked in successfully"
+          @message = "#{@member.name}, You have been checked in successfully. "
+          if @member.full_time == false
+            @message += "Please pay your dues when you come in."
+          end
         end
         @checkin.updated_at = Time.current
         @checkin.save
