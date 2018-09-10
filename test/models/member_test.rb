@@ -17,6 +17,7 @@
 # **`qr_code_number`**  | `integer`          |
 # **`league_rating`**   | `integer`          | `default(0)`
 # **`usatt_number`**    | `integer`          |
+# **`table_number`**    | `integer`          |
 #
 # ### Indexes
 #

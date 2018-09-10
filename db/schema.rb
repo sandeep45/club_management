@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180814213545) do
+ActiveRecord::Schema.define(version: 20180907222811) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20180814213545) do
     t.integer "qr_code_number"
     t.integer "league_rating", default: 0
     t.integer "usatt_number"
+    t.integer "table_number"
     t.index ["club_id"], name: "index_members_on_club_id"
   end
 
