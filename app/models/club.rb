@@ -31,4 +31,4 @@ class Club < ApplicationRecord
   has_many :members, :dependent => :destroy
   has_many :checkins, through: :members
 
-  end
+end

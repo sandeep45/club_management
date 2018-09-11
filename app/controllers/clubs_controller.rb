@@ -1,6 +1,26 @@
 class ClubsController < AuthenticatedController
 
-  before_action :set_club, only: [:show, :update, :destroy]
+  before_action :set_club, only: [:show, :update, :destroy, :assign_tables_straight]
+
+  def assign_tables_straight
+
+    number_of_tables = params[:number_of_tables].to_i
+    people_per_table = params[:people_per_table].to_i
+    total_players_count = number_of_tables * people_per_table
+
+    @club.members.which_are_checked_in.update_all :table_number => 0
+    @members = @club.members.which_are_checked_in.order("members.league_rating DESC").limit(total_players_count)
+    member_ids = @members.pluck :id
+    member_ids.each_slice(people_per_table).each_with_index do |slice, batch_index|
+      Member.where(:id => slice).update_all :table_number => batch_index+1
+    end
+
+    render json: @club.members.which_are_checked_in
+  end
+
+  def assign_tables_every_other
+
+  end
 
   # GET /clubs
   def index

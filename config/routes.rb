@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'Owner', at: 'auth'
 
   resources :clubs do
+    member do
+      post :assign_tables_straight
+      post :assign_tables_every_other
+    end
     resources :members do
       collection do
         get :checked_in_today

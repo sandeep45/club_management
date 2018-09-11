@@ -34,7 +34,7 @@ class CheckinsController < AuthenticatedController
                 :only => :id
               }
             },
-            :only => :id
+            :only => [:id, :table_number]
           }
         }
       ), status: status

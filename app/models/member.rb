@@ -34,5 +34,7 @@ class Member < ApplicationRecord
   belongs_to :club
   has_many :checkins, :dependent => :destroy
 
+  scope :which_are_checked_in, -> { joins(:checkins ).merge(Checkin.of_today) }
+
   validates :qr_code_number, :uniqueness => true, :allow_nil => true, :allow_blank => true
 end
