@@ -28,4 +28,12 @@ class Checkin < ApplicationRecord
   scope :of_today, -> { where("checkins.created_at >= ? and checkins.created_at <= ?",
                               Time.current.beginning_of_day, Time.current.end_of_day) }
 
+  after_create :set_table_number
+
+  private
+
+  def set_table_number
+    self.member.update :table_number => 0
+  end
+
 end
