@@ -36,7 +36,7 @@ class Member < ApplicationRecord
 
   scope :which_are_checked_in, -> { joins(:checkins ).merge(Checkin.of_today) }
 
-  validates :qr_code_number, :uniqueness => true, :allow_nil => true, :allow_blank => true
+  validates :qr_code_number, :uniqueness => {:scope => :club_id}, :allow_nil => true, :allow_blank => true
 
   after_initialize :set_defaults
 
