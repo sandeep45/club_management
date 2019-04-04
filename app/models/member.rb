@@ -37,5 +37,7 @@ class Member < ApplicationRecord
 
   scope :which_are_checked_in, -> { joins(:checkins ).merge(Checkin.of_today) }
 
-  validates :qr_code_number, :uniqueness => true, :allow_nil => true, :allow_blank => true
+  validates :qr_code_number,
+    :uniqueness => { :scope => :club_id, :message => 'no 2 members can have the same qr code number under the same club' },
+    :allow_nil => true, :allow_blank => true
 end
