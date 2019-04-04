@@ -125,6 +125,8 @@ class MembersController < AuthenticatedController
     if @member.update(member_params)
       render json: @member
     else
+      puts "got error while updating member"
+      puts @member.errors
       render json: @member.errors, status: :unprocessable_entity
     end
   end
