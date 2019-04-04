@@ -30,5 +30,6 @@ class Club < ApplicationRecord
 
   has_many :members, :dependent => :destroy
   has_many :checkins, through: :members
+  has_many :play_dates, :inverse_of => :club
 
 end

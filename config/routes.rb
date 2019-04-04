@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     member do
       post :assign_tables_straight
       post :assign_tables_every_other
+      post :assign_tables_random
     end
     resources :members do
       collection do

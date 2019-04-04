@@ -76,7 +76,7 @@ class ApplicationController < ActionController::API
           @message = "#{@member.name}, You are already checked in"
         else
           @message = "#{@member.name}, You have been checked in successfully. "
-          if @member.full_time == false
+          if @member.membership_kind == 'part_time'
             @message += "Please pay your dues when you come in."
           end
         end

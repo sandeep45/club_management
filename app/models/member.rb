@@ -4,20 +4,21 @@
 #
 # ### Columns
 #
-# Name                  | Type               | Attributes
-# --------------------- | ------------------ | ---------------------------
-# **`id`**              | `integer`          | `not null, primary key`
-# **`name`**            | `string`           |
-# **`email`**           | `string`           |
-# **`club_id`**         | `integer`          |
-# **`phone_number`**    | `string`           |
-# **`full_time`**       | `boolean`          | `default(FALSE)`
-# **`created_at`**      | `datetime`         | `not null`
-# **`updated_at`**      | `datetime`         | `not null`
-# **`qr_code_number`**  | `integer`          |
-# **`league_rating`**   | `integer`          | `default(0)`
-# **`usatt_number`**    | `integer`          |
-# **`table_number`**    | `integer`          |
+# Name                   | Type               | Attributes
+# ---------------------- | ------------------ | ---------------------------
+# **`id`**               | `integer`          | `not null, primary key`
+# **`name`**             | `string`           |
+# **`email`**            | `string`           |
+# **`club_id`**          | `integer`          |
+# **`phone_number`**     | `string`           |
+# **`full_time`**        | `boolean`          | `default(FALSE)`
+# **`created_at`**       | `datetime`         | `not null`
+# **`updated_at`**       | `datetime`         | `not null`
+# **`qr_code_number`**   | `integer`          |
+# **`league_rating`**    | `integer`          | `default(0)`
+# **`usatt_number`**     | `integer`          |
+# **`table_number`**     | `integer`          |
+# **`membership_kind`**  | `string`           | `default("part_time")`
 #
 # ### Indexes
 #
@@ -36,17 +37,5 @@ class Member < ApplicationRecord
 
   scope :which_are_checked_in, -> { joins(:checkins ).merge(Checkin.of_today) }
 
-  validates :qr_code_number, :uniqueness => {:scope => :club_id}, :allow_nil => true, :allow_blank => true
-
-  after_initialize :set_defaults
-
-  private
-
-  def set_defaults
-    self.table_number  ||= 0
-    self.usatt_number  ||= 0
-    self.league_rating  ||= 0
-    self.name  ||= ""
-  end
-
+  validates :qr_code_number, :uniqueness => true, :allow_nil => true, :allow_blank => true
 end

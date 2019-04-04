@@ -95,7 +95,7 @@ class MembersController < AuthenticatedController
   end
 
   def mark_all_part_time
-    @club.members.update_all :full_time => false
+    @club.members.update_all :membership_kind => 'part_time'
   end
 
   # POST /members
@@ -147,8 +147,8 @@ class MembersController < AuthenticatedController
     # Only allow a trusted parameter "white list" through.
     def member_params
       params.require(:member).permit(:name, :email, :club_id, :phone_number,
-                                     :qr_code_number, :full_time, :league_rating,
-                                     :usatt_number, :table_number)
+                                     :qr_code_number, :league_rating,
+                                     :usatt_number, :table_number, :membership_kind)
     end
 
     def lookup_params

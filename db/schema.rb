@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180907222811) do
+ActiveRecord::Schema.define(version: 20190404204745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20180907222811) do
     t.integer "league_rating", default: 0
     t.integer "usatt_number"
     t.integer "table_number"
+    t.string "membership_kind", default: "part_time"
     t.index ["club_id"], name: "index_members_on_club_id"
   end
 
@@ -65,6 +66,13 @@ ActiveRecord::Schema.define(version: 20180907222811) do
     t.index ["email"], name: "index_owners_on_email", unique: true
     t.index ["reset_password_token"], name: "index_owners_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_owners_on_uid_and_provider", unique: true
+  end
+
+  create_table "play_dates", force: :cascade do |t|
+    t.date "the_date"
+    t.integer "club_id"
+    t.string "title"
+    t.index ["club_id"], name: "index_play_dates_on_club_id"
   end
 
   add_foreign_key "checkins", "members"
