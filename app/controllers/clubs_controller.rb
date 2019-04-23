@@ -90,16 +90,18 @@ class ClubsController < AuthenticatedController
 
     # Only allow a trusted parameter "white list" through.
     def club_params
-      params.require(:club).permit(:name, :owner_id, :keyword)
+      params.require(:club).permit(:name, :owner_id, :keyword,
+       :simply_compete_username, :simply_compete_password,
+       :simply_compete_league_id)
     end
 
     def pre_assignment
-
       @number_of_tables = params[:number_of_tables].to_i
       @people_per_table = params[:people_per_table].to_i
       @total_players_count = @number_of_tables * @people_per_table
 
       @club.members.which_are_checked_in.update_all :table_number => 0
-      @members = @club.members.which_are_checked_in.order("members.league_rating DESC").limit(@total_players_count)
+      @members = @club.members.which_are_checked_in.
+        order("members.league_rating DESC").limit(@total_players_count)
     end
 end

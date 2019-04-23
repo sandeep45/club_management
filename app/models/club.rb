@@ -4,14 +4,17 @@
 #
 # ### Columns
 #
-# Name              | Type               | Attributes
-# ----------------- | ------------------ | ---------------------------
-# **`id`**          | `integer`          | `not null, primary key`
-# **`name`**        | `string`           |
-# **`created_at`**  | `datetime`         | `not null`
-# **`updated_at`**  | `datetime`         | `not null`
-# **`owner_id`**    | `integer`          |
-# **`keyword`**     | `string`           |
+# Name                            | Type               | Attributes
+# ------------------------------- | ------------------ | ---------------------------
+# **`id`**                        | `integer`          | `not null, primary key`
+# **`name`**                      | `string`           |
+# **`created_at`**                | `datetime`         | `not null`
+# **`updated_at`**                | `datetime`         | `not null`
+# **`owner_id`**                  | `integer`          |
+# **`keyword`**                   | `string`           |
+# **`simply_compete_username`**   | `string`           |
+# **`simply_compete_password`**   | `string`           |
+# **`simply_compete_league_id`**  | `string`           |
 #
 # ### Indexes
 #

@@ -4,7 +4,11 @@ class MembersController < AuthenticatedController
   before_action :set_member, only: [:show, :update, :destroy]
 
   def update_ratings
-    client = SimplyCompeteWrapper.new 'gallian83@hotmail.com', 'bttc', 1017
+    # client = SimplyCompeteWrapper.new 'gallian83@hotmail.com', 'bttc', 1017
+    client = SimplyCompeteWrapper.new @club.simply_compete_username,
+      @club.simply_compete_password, 
+      @club.simply_compete_league_id
+    
     client.setup_session
     hash = client.download_csv
     hash.each_pair do |k,v|
