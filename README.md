@@ -4,13 +4,13 @@ setup sign up page - Done
 
 add tos and privacy policy - DONE
 
-show members QR code if they already have one.
+show members QR code if they already have one. - DONE
+
+add new playing order - DONE
 
 add ladder style table break out
 
 allow uploading pictures and showing pictures as a safety feature
-
-show checked in check on members page as well
 
 show usatt id, usatt expiration, tournament rating
 
@@ -23,6 +23,10 @@ allow generating reports of play dates
 add checkin open/close button
 
 add ability to mass text everyone
+
+add concept of trial
+
+add ability to take payment for software
 
 ---
 usatt_number

@@ -2,6 +2,12 @@ Rails.application.routes.draw do
 
   mount_devise_token_auth_for 'Owner', at: 'auth'
 
+  resources :members, :only => [] do
+    collection do
+      post :global_search
+    end
+  end
+
   resources :clubs do
     member do
       post :assign_tables_straight

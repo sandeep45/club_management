@@ -1,7 +1,36 @@
 class MembersController < AuthenticatedController
 
-  before_action :set_club
+  before_action :set_club, except: [:global_search]
   before_action :set_member, only: [:show, :update, :destroy]
+
+  def global_search
+    if params[:email].blank? && params[:phone_number].blank?
+      render json: {
+        :success => false,
+        :qr_code_number => '',
+        :club_keyword => ''
+      }
+      return
+    end
+
+    @member1 = Member.find_by(:email => params[:email])
+    @member2 = Member.find_by(:phone_number => params[:phone_number])
+    @member = @member1 || @member2 
+    
+    if @member.present? && @member.qr_code_number.present?
+      render json: {
+        :success => true,
+        :qr_code_number => @member.qr_code_number,
+        :club_keyword => @member.club.keyword
+      }
+    else 
+      render json: {
+        :success => false,
+        :qr_code_number => '',
+        :club_keyword => ''
+      }
+    end
+  end
 
   def update_ratings
     # client = SimplyCompeteWrapper.new 'gallian83@hotmail.com', 'bttc', 1017
