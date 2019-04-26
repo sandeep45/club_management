@@ -1,4 +1,18 @@
+move table assignment and print options to modals
+
+allow ability to mark checkin as paid
+only paid members show up in table break-out
+
+speed up download of scores
+fix download ratings error
+show download ratings on table break out page
+
+lock and unlock table assignment
+
+print play order on the same table with two columns
 make it simplycompete generic by storing username and password - DONE
+
+replace checkin notification from modal to "toast"
 
 setup sign up page - Done
 

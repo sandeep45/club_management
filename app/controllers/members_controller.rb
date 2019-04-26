@@ -40,8 +40,12 @@ class MembersController < AuthenticatedController
     
     client.setup_session
     hash = client.download_csv
-    hash.each_pair do |k,v|
-      Member.where("lower(name) = lower(?)", k).update_all("league_rating=#{v}")
+    hash = hash.transform_keys { |k| k.downcase }
+
+    @club.members.each do |member|
+      if hash[member.name.downcase].present?
+        member.update_column :league_rating, hash[member.name.downcase]
+      end 
     end
     render json: @club.members
   end
