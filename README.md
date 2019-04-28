@@ -1,7 +1,19 @@
-move table assignment and print options to modals
+show member is checked in on members table
+
+change message on download ratings to tell person to tell person that this takes a while
+
+change message for delete as well
 
 allow ability to mark checkin as paid
-only paid members show up in table break-out
+
+
+only allow paid members to show up in table break-out
+
+move table assignment and print options to modals
+
+on checkins page the label numbers are broken
+
+allow setting member back to part time after certain date
 
 speed up download of scores
 fix download ratings error

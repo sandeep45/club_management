@@ -44,13 +44,13 @@ class CheckinsController < AuthenticatedController
   end
 
   # # PATCH/PUT /checkins/1
-  # def update
-  #   if @checkin.update(params)
-  #     render json: @checkin
-  #   else
-  #     render json: @checkin.errors, status: :unprocessable_entity
-  #   end
-  # end
+  def update
+    if @checkin.update(checkins_params)
+      render json: @checkin
+    else
+      render json: @checkin.errors, status: :unprocessable_entity
+    end
+  end
 
   # DELETE /checkins/1
   def destroy
@@ -58,6 +58,10 @@ class CheckinsController < AuthenticatedController
   end
 
   private
+    # Only allow a trusted parameter "white list" through.
+    def checkins_params
+      params.require(:checkin).permit(:member_id, :paid)
+    end
 
     def set_member
       if params[:member_id].present?
