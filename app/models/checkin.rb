@@ -37,7 +37,7 @@ class Checkin < ApplicationRecord
 
   def set_paid
     if member.membership_kind == "full_time" || member.membership_kind == "complimentary"
-      self.paid = true
+      self.paid = false
     end
   end
 

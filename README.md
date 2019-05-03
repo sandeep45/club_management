@@ -6,6 +6,7 @@ change message for delete as well
 
 allow ability to mark checkin as paid
 
+ping request to wake up heroku when website is loaded
 
 only allow paid members to show up in table break-out
 
