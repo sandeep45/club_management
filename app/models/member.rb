@@ -19,6 +19,7 @@
 # **`usatt_number`**     | `integer`          |
 # **`table_number`**     | `integer`          |
 # **`membership_kind`**  | `string`           | `default("part_time")`
+# **`notes`**            | `text`             |
 #
 # ### Indexes
 #
