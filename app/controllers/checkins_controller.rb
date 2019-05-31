@@ -60,7 +60,7 @@ class CheckinsController < AuthenticatedController
   private
     # Only allow a trusted parameter "white list" through.
     def checkins_params
-      params.require(:checkin).permit(:member_id, :paid)
+      params.require(:checkin).permit(:member_id, :paid, :amount_collected)
     end
 
     def set_member

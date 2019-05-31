@@ -4,13 +4,14 @@
 #
 # ### Columns
 #
-# Name              | Type               | Attributes
-# ----------------- | ------------------ | ---------------------------
-# **`id`**          | `integer`          | `not null, primary key`
-# **`member_id`**   | `integer`          |
-# **`created_at`**  | `datetime`         | `not null`
-# **`updated_at`**  | `datetime`         | `not null`
-# **`paid`**        | `boolean`          | `default(FALSE)`
+# Name                    | Type               | Attributes
+# ----------------------- | ------------------ | ---------------------------
+# **`id`**                | `integer`          | `not null, primary key`
+# **`member_id`**         | `integer`          |
+# **`created_at`**        | `datetime`         | `not null`
+# **`updated_at`**        | `datetime`         | `not null`
+# **`paid`**              | `boolean`          | `default(FALSE)`
+# **`amount_collected`**  | `integer`          | `default(0)`
 #
 # ### Indexes
 #

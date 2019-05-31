@@ -92,7 +92,7 @@ class ClubsController < AuthenticatedController
     def club_params
       params.require(:club).permit(:name, :owner_id, :keyword,
        :simply_compete_username, :simply_compete_password,
-       :simply_compete_league_id)
+       :simply_compete_league_id, :default_amount_to_collect)
     end
 
     def pre_assignment

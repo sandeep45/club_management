@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190511180139) do
+ActiveRecord::Schema.define(version: 20190530232307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20190511180139) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "paid", default: false
+    t.integer "amount_collected", default: 0
     t.index ["member_id"], name: "index_checkins_on_member_id"
   end
 
@@ -32,6 +33,7 @@ ActiveRecord::Schema.define(version: 20190511180139) do
     t.string "simply_compete_username"
     t.string "simply_compete_password"
     t.string "simply_compete_league_id"
+    t.integer "default_amount_to_collect", default: 10
     t.index ["owner_id"], name: "index_clubs_on_owner_id"
   end
 
